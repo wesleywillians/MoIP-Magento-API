@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <SON_Moip>
+            <version>1.0</version>
+        </SON_Moip>
+    </modules>
+
+    <global>
+        <models>
+            <moip>
+                <class>SON_Moip_Model</class>
+            </moip>
+        </models>
+
+        <resources>
+            <moip_setup>
+                <setup>
+                    <module>SON_Moip</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </moip_setup>
+            
+            <moip_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </moip_write>
+            <moip_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </moip_read>
+        </resources>
+
+        <blocks>
+            <moip>
+                <class>SON_Moip_Block</class>
+            </moip>
+        </blocks>
+
+        <helpers>
+            <moip>
+                <class>SON_Moip_Helper</class>
+            </moip>
+        </helpers>
+
+    </global>
+
+    <frontend>
+        <routers>
+            <moip>
+                <use>standard</use>
+                <args>
+                    <module>SON_Moip</module>
+                    <frontName>Moip</frontName>
+                </args>
+            </moip>
+        </routers>
+        <translate>
+            <modules>
+                <moip>
+                    <files>
+                        <default>moip.csv</default>
+                    </files>
+                </moip>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <moip>
+                    <file>moip.xml</file>
+                </moip>
+            </updates>
+        </layout>
+    </frontend>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <moip>
+                    <files>
+                        <default>moip.csv</default>
+                    </files>
+                </moip>
+            </modules>
+        </translate>
+    </adminhtml>
+
+    <default>
+        <payment>
+            <son_moip_standard>
+                <active>1</active>
+                <model>SON_Moip_Model_Standard</model>
+                <title><![CDATA[Moip]]></title>
+                <mensagem_redirect_moip><![CDATA[<p>Seu pedido não foi processado, favor efetuar o pagamento.</p><p>Você será redirecionado para o <b>Moip</b> em alguns instantes.</p>]]>
+                </mensagem_redirect_moip>
+                <allowspecific>1</allowspecific>
+            </son_moip_standard>
+        </payment>
+    </default>
+
+</config>

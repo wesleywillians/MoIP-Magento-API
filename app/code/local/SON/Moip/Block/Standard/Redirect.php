@@ -1,0 +1,70 @@
+<?php
+/**
+ * MoIP - Moip Payment Module
+ *
+ * @title      Magento -> Custom Payment Module for Moip (Brazil)
+ * @category   Payment Gateway
+ * @package    SON_Moip
+ * @author     MoIP Pagamentos S/a
+ * @copyright  Copyright (c) 2010 MoIP Pagamentos S/A
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+class SON_Moip_Block_Standard_Redirect extends Mage_Core_Block_Abstract {
+
+    protected function _toHtml() {
+        $standard = Mage::getModel('moip/standard');
+
+        $form = new Varien_Data_Form();
+        $api = Mage::getModel('moip/api');
+        $api->setAmbiente($standard->getConfigData('ambiente'));
+        $url = $api->generateUrl(Mage::registry('token'));
+        $status_pgdireto = Mage::registry('StatusPgdireto');
+
+        //Zend_Debug::dump(Mage::registry('xml'));
+
+        $html = $this->__('');
+        
+
+        if (Mage::registry('token')) {
+            if (!$status_pgdireto) {
+                $form->setAction($url)
+                        ->setId('moip_standard_checkout')
+                        ->setName('moip_standard_checkout')
+                        ->setMethod('POST')
+                        ->setUseContainer(true);
+
+                $html.= $standard->getMessageRedirect();
+                $html.= $this->__('<p>Caso a janela não se abra automaticamente <a href="javascript:open();"><strong>clique aqui</strong></a>.</p>');
+                $html.= $form->toHtml();
+                $html.= '<script type="text/javascript">function open(){';
+                $html.= 'document.getElementById("moip_standard_checkout").target=\'blank\';';
+                $html.= 'document.getElementById("moip_standard_checkout").submit();';
+                $html.= '}';
+                $html.= 'open();';
+                $html.= '</script>';
+
+                $html.= '';
+            } else {
+
+                if ($status_pgdireto <> "Cancelado")
+                    $html.= "<meta http-equiv='Refresh' content='4;URL=/index.php/checkout/onepage/success/'>";
+
+                if ($status_pgdireto == "Cancelado")
+                    $html.= "O pagamento foi cancelado, você poderá realizar uma nova tentativa de compra utilizando outra forma de pagamento ou outro cartão.";
+                elseif ($status_pgdireto == "Iniciado")
+                    $html.= "A transação ainda está sendo processada e não foi confirmada até o momento. Você será informado por email assim que o processamento for concluído.";
+                elseif ($status_pgdireto == "Sucesso")
+                    $html.= "O pagamento foi concluído com sucesso e a loja será notificada notificado";
+                else
+                    $html.= "O pagamento foi autorizado, porém não foi confirmado por nossa equipe. Aguarde. Você receberá a confirmação do pagamento por e-mail.   ";
+
+                //$html.= $status_pgdireto;
+            }
+        } else {
+            $html = "Erro durante o processamento. Tente novamente a operação.";
+        }
+
+        return $html;
+    }
+
+}
