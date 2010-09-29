@@ -10,7 +10,13 @@
  * @copyright  Copyright (c) 2010 MoIP Pagamentos S/A
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 class SON_Moip_Model_Api {
+
+	const TOKEN_TEST = "G51MK8GF3PRBGOZA3DAOWDNT73CGKZM7";
+	const KEY_TEST = "T4IOL9XBYPCUU3OGHEHQUR9ZE9E5DAAPZIRFHFXV";
+	const TOKEN_PROD = "DPA3ZEEJR2MWNGK5FACBUNNARBYBOQNK";
+	const KEY_PROD = "9CKWTHK9JAX2B6QK0ORMZBLKZFW5PR3MEXZFKG9H";
 
     private $ambiente = null;
     private $conta_moip = null;
@@ -213,24 +219,24 @@ class SON_Moip_Model_Api {
      /**
      * Verificação se a loja possui pagamento direto
      * @access public
-     * @param String $token
-     * @param String $key
      * @return Array
      */
-    public function hasPagamentoDireto($token='G51MK8GF3PRBGOZA3DAOWDNT73CGKZM7', $key='T4IOL9XBYPCUU3OGHEHQUR9ZE9E5DAAPZIRFHFXV') {
-        $header = "Authorization: Basic " . base64_encode($token . ":" . $key);
-        if ($this->getAmbiente() == "teste")
-            $url = "https://desenvolvedor.moip.com.br/sandbox/ws/alpha/ChecarPagamentoDireto/" . $this->conta_moip;
-        else
+    public function hasPagamentoDireto() {
+        if ($this->getAmbiente() == "teste") {
+    		$url = "https://desenvolvedor.moip.com.br/sandbox/ws/alpha/ChecarPagamentoDireto/" . $this->conta_moip;
+			$header = "Authorization: Basic " . base64_encode(SON_Moip_Model_Api::TOKEN_TEST . ":" . SON_Moip_Model_Api::KEY_TEST);
+		}
+        else {
             $url = "https://www.moip.com.br/ws/alpha/ChecarPagamentoDireto/" . $this->conta_moip;
-
-
+			$header = "Authorization: Basic " . base64_encode(SON_Moip_Model_Api::TOKEN_PROD . ":" . SON_Moip_Model_Api::KEY_PROD);
+		}
+		
         $httpClient = new Zend_Http_Client($url);
         $httpClient->setHeaders($header);
         $responseMoIP = $httpClient->request('GET');
 
         $res = simplexml_load_string($responseMoIP->getBody());
-
+		
         return $res;
     }
 
@@ -280,17 +286,19 @@ class SON_Moip_Model_Api {
      * @access public
      * @param Double $valor
      * @param Double $juros
-     * @param String $token
-     * @param String $key
      * @return Array
      */
-    public function getRequestParcelamento($valor, $juros, $parcelas, $token='G51MK8GF3PRBGOZA3DAOWDNT73CGKZM7', $key='T4IOL9XBYPCUU3OGHEHQUR9ZE9E5DAAPZIRFHFXV') {
-        $header = "Authorization: Basic " . base64_encode($token . ":" . $key);
-        if ($this->getAmbiente() == "teste")
-            $url = "https://desenvolvedor.moip.com.br/sandbox/ws/alpha/ChecarValoresParcelamento/" . $this->conta_moip . "/" . $parcelas . "/" . $juros . "/" . $valor;
-        else
-            $url = "https://www.moip.com.br/ws/alpha/ChecarPagamentoDireto/ChecarValoresParcelamento/" . $this->conta_moip . "/" . $parcelas . "/" . $juros . "/" . $valor;
-
+    public function getRequestParcelamento($valor, $juros, $parcelas) {
+	
+		 if ($this->getAmbiente() == "teste") {
+	    		$url = "https://desenvolvedor.moip.com.br/sandbox/ws/alpha/ChecarValoresParcelamento/" . $this->conta_moip . "/" . $parcelas . "/" . $juros . "/" . $valor;
+				$header = "Authorization: Basic " . base64_encode(SON_Moip_Model_Api::TOKEN_TEST . ":" . SON_Moip_Model_Api::KEY_TEST);
+			}
+	        else {
+	            $url = "https://www.moip.com.br/ws/alpha/ChecarValoresParcelamento/" . $this->conta_moip . "/" . $parcelas . "/" . $juros . "/" . $valor;
+				$header = "Authorization: Basic " . base64_encode(SON_Moip_Model_Api::TOKEN_PROD . ":" . SON_Moip_Model_Api::KEY_PROD);
+			}
+			
         $httpClient = new Zend_Http_Client($url);
         $httpClient->setHeaders($header);
         $responseMoIP = $httpClient->request('GET');
@@ -316,18 +324,19 @@ class SON_Moip_Model_Api {
      * Solicita token pelo MoIP depois do XML informado
      * @access public
      * @param String $xml
-     * @param String $token
-     * @param String $key
      * @return Array
      */
-    public function getToken($xml, $token='G51MK8GF3PRBGOZA3DAOWDNT73CGKZM7', $key='T4IOL9XBYPCUU3OGHEHQUR9ZE9E5DAAPZIRFHFXV') {
-        $header = "Authorization: Basic " . base64_encode($token . ":" . $key);
-
-        if ($this->getAmbiente() == "teste")
-            $url = "https://desenvolvedor.moip.com.br/sandbox/ws/alpha/EnviarInstrucao/Unica";
-        else
-            $url = "https://www.moip.com.br/ws/alpha/EnviarInstrucao/Unica";
-
+    public function getToken($xml) {
+	
+		if ($this->getAmbiente() == "teste") { 
+	    		$url = "https://desenvolvedor.moip.com.br/sandbox/ws/alpha/EnviarInstrucao/Unica";
+				$header = "Authorization: Basic " . base64_encode(SON_Moip_Model_Api::TOKEN_TEST . ":" . SON_Moip_Model_Api::KEY_TEST);
+			}
+	        else {
+	            $url = "https://www.moip.com.br/ws/alpha/EnviarInstrucao/Unica";
+				$header = "Authorization: Basic " . base64_encode(SON_Moip_Model_Api::TOKEN_PROD . ":" . SON_Moip_Model_Api::KEY_PROD);
+			}
+	
         $httpClient = new Zend_Http_Client($url);
         $httpClient->setHeaders($header);
         $httpClient->setRawData($xml);
