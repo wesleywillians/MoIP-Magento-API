@@ -172,7 +172,7 @@ class SON_Moip_Model_Standard extends Mage_Payment_Model_Method_Abstract {
 
         $totalArr = $a->getTotals();
 
-        $cep = substr(eregi_replace("[^0-9]", "", $a->getPostcode()) . '00000000', 0, 8);
+        $cep = substr(preg_replace("/[^0-9]/", "", $a->getPostcode()) . '00000000', 0, 8);
 
         $amount = $a->getGrandTotal();
         #$valor = str_replace(".", "", $amount);
@@ -285,7 +285,7 @@ class SON_Moip_Model_Standard extends Mage_Payment_Model_Method_Abstract {
     function getNumberOrDDD($param_telefone, $param_ddd = false) {
 
         $cust_ddd = '00';
-        $cust_telephone = eregi_replace("[^0-9]", "", $param_telefone);
+        $cust_telephone = preg_replace("/[^0-9]/", "", $param_telefone);
         $st = strlen($cust_telephone) - 8;
 
         if ($st > 0) { //No caso essa seqüência é mais de 8 caracteres
