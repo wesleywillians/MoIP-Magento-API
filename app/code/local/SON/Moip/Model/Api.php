@@ -355,10 +355,12 @@ class SON_Moip_Model_Api {
         $status = "";
         $moipToken = "";
         $pgdireto_codigoretorno = "";
+		$erro = "";
 	
 
 
         if ($res) {
+			if($res->Resposta->Erro)
 				$erro = $res->Resposta->Erro;
             /*
              * Rotina POG para facilitar o que estamos pegando.
@@ -393,10 +395,16 @@ class SON_Moip_Model_Api {
             $result['pgdireto_status'] = $pgdireto_status;
             $result['pgdireto_mensagem'] = $pgdireto_mensagem;
             $result['pgdireto_codigoretorno'] = $pgdireto_codigoretorno;
-			return $result;
+		
 		}
-        else
-            return $result;
+        else {
+			$result['status'] = $status;
+            $result['token'] = "";
+            $result['pgdireto_status'] = "";
+            $result['pgdireto_mensagem'] = "";
+            $result['pgdireto_codigoretorno'] = "";
+		}
+        return $result;
     }
 
     /**
