@@ -19,7 +19,6 @@ class SON_Moip_Block_Standard_Redirect extends Mage_Core_Block_Abstract {
         $api->setAmbiente($standard->getConfigData('ambiente'));
         $url = $api->generateUrl(Mage::registry('token'));
         $status_pgdireto = Mage::registry('StatusPgdireto');
-
         //Zend_Debug::dump(Mage::registry('xml'));
 
         $html = $this->__('');
@@ -61,7 +60,8 @@ class SON_Moip_Block_Standard_Redirect extends Mage_Core_Block_Abstract {
                 //$html.= $status_pgdireto;
             }
         } else {
-            $html = "Erro durante o processamento. Tente novamente a operação.";
+			 $html = "Erro durante o processamento. Tente novamente a operação.<br><br>
+					<b>Erro encontrado</b>: ".Mage::registry('erro');
         }
 
         return $html;

@@ -199,7 +199,7 @@ class SON_Moip_Model_Standard extends Mage_Payment_Model_Method_Abstract {
             'pagador_logradouro' => $a->getStreet(1),
             'pagador_numero' => $this->getNumEndereco($a->getStreet(1)),
             'pagador_complemento' => $a->getStreet(2),
-            'pagador_bairro' => '',
+            'pagador_bairro' => $a->getStreet(2),
             'pagador_cep' => $cep,
             'pagador_cidade' => $a->getCity(),
             'pagador_estado' => $a->getRegionCode(),

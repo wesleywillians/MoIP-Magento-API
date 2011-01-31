@@ -62,6 +62,7 @@ class SON_Moip_StandardController extends Mage_Core_Controller_Front_Action {
 
 
         Mage::register('token', $token['token']);
+		Mage::register('erro', $token['erro']);
         Mage::register('StatusPgdireto', $token['pgdireto_status']);
 
         $this->loadLayout();
