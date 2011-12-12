@@ -13,10 +13,10 @@
 
 class SON_Moip_Model_Api {
 
-	const TOKEN_TEST = "G51MK8GF3PRBGOZA3DAOWDNT73CGKZM7";
-	const KEY_TEST = "T4IOL9XBYPCUU3OGHEHQUR9ZE9E5DAAPZIRFHFXV";
-	const TOKEN_PROD = "DPA3ZEEJR2MWNGK5FACBUNNARBYBOQNK";
-	const KEY_PROD = "9CKWTHK9JAX2B6QK0ORMZBLKZFW5PR3MEXZFKG9H";
+	const TOKEN_TEST = "V0MFFJTVJGPOVCQJD3KZV62ITTC15RFG";
+	const KEY_TEST = "OYSRNPUL885EJPPG10AEQUQZQYZBEZMZCUQBOMTA";
+	const TOKEN_PROD = "E3DXZ3IHKEWGVWXFHQCSKCE0GTKT5PFP";
+	const KEY_PROD = "QBDTYLNLCN7SAZ65J7LD6U18K73TJ1KSEURDEROP";
 
     private $ambiente = null;
     private $conta_moip = null;
@@ -212,7 +212,6 @@ class SON_Moip_Model_Api {
 
         $destino = $xml->createElement('Destino', 'MesmoCobranca');
         $entrega->appendChild($destino);
-
         return $xml->saveXML();
     }
 

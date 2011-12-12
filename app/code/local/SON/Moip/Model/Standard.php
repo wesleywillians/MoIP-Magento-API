@@ -259,9 +259,6 @@ class SON_Moip_Model_Standard extends Mage_Payment_Model_Method_Abstract {
         if ($posComplemento !== false)
             $numEndereco = trim(substr($numEndereco, 0, $posComplemento));
 
-        if ($numEndereco == '')
-            $numEndereco = '?';
-
         return($numEndereco);
     }
 
