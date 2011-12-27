@@ -56,7 +56,11 @@ class SON_Moip_Model_Api {
         $razao = $xml->createElement('Razao', 'Compra Online');
         $unica->appendChild($razao);
 
-        $idproprio = $xml->createElement('IdProprio', $data['id_transacao']);
+        $id_transacao = substr($data['id_transacao'] . " - " . strrev(time()),0,32);
+        print_r($data);
+        echo $id_transacao;exit;
+        $idproprio = $xml->createElement('IdProprio', $id_transacao);
+
         $unica->appendChild($idproprio);
 
 
@@ -212,6 +216,7 @@ class SON_Moip_Model_Api {
 
         $destino = $xml->createElement('Destino', 'MesmoCobranca');
         $entrega->appendChild($destino);
+        print $xml->saveXML();exit;
         return $xml->saveXML();
     }
 
