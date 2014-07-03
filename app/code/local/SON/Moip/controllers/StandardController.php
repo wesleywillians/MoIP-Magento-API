@@ -45,7 +45,7 @@ class SON_Moip_StandardController extends Mage_Core_Controller_Front_Action {
         $session = Mage::getSingleton('checkout/session');
         $standard = $this->getStandard();
 
-        
+
         $fields = $session->getMoIPFields();
         $fields['id_transacao'] = Mage::getSingleton('checkout/session')->getLastRealOrderId();
         $pgtoArray = $session->getPgtoArray();
@@ -60,11 +60,11 @@ class SON_Moip_StandardController extends Mage_Core_Controller_Front_Action {
 
         $session->setMoipStandardQuoteId($session->getQuoteId());
 
-        
+
         Mage::register('token', $token['token']);
 		Mage::register('erro', $token['erro']);
         Mage::register('StatusPgdireto', $token['pgdireto_status']);
-        
+
         $this->loadLayout();
         $this->getLayout()->getBlock('content')->append($this->getLayout()->createBlock('moip/standard_redirect'));
         $this->renderLayout();
@@ -135,41 +135,41 @@ class SON_Moip_StandardController extends Mage_Core_Controller_Front_Action {
               const STATE_HOLDED     = 'holded';
              */
             switch ($data['status_pagamento']) {
-                case 1:
-                    $state = Mage_Sales_Model_Order::STATE_PROCESSING;
-                    $status = 'processing';
-                    $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
-                    break;
-                case 2:
-                    $state = Mage_Sales_Model_Order::STATE_PROCESSING;
-                    $status = 'processing';
-                    $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
-                    break;
-                case 3:
-                    $state = Mage_Sales_Model_Order::STATE_HOLDED;
-                    $status = 'holded';
-                    $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
-                    break;
-                case 4:
-                    $state = Mage_Sales_Model_Order::STATE_PROCESSING;
-                    $status = 'processing';
-                    $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
-                    break;
-                case 5:
-                    $state = Mage_Sales_Model_Order::STATE_CANCELED;
-                    $status = 'holded';
-                    $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
-                    break;
-                case 6:
-                    $state = Mage_Sales_Model_Order::STATE_HOLDED;
-                    $status = 'holded';
-                    $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
-                    break;
-                case 7:
-                    $state = Mage_Sales_Model_Order::STATE_PROCESSING;
-                    $status = 'processing';
-                    $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
-                    break;
+            case 1:
+                $state = Mage_Sales_Model_Order::STATE_PROCESSING;
+                $status = 'processing';
+                $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
+                break;
+            case 2:
+                $state = Mage_Sales_Model_Order::STATE_PROCESSING;
+                $status = 'processing';
+                $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
+                break;
+            case 3:
+                $state = Mage_Sales_Model_Order::STATE_HOLDED;
+                $status = 'holded';
+                $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
+                break;
+            case 4:
+                $state = Mage_Sales_Model_Order::STATE_PROCESSING;
+                $status = 'processing';
+                $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
+                break;
+            case 5:
+                $state = Mage_Sales_Model_Order::STATE_CANCELED;
+                $status = 'holded';
+                $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
+                break;
+            case 6:
+                $state = Mage_Sales_Model_Order::STATE_HOLDED;
+                $status = 'holded';
+                $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
+                break;
+            case 7:
+                $state = Mage_Sales_Model_Order::STATE_PROCESSING;
+                $status = 'processing';
+                $comment = $this->getStatusPagamentoMoip($data['status_pagamento']);
+                break;
             }
 
             $order->setState($state, $status, $comment, $notified = true);
@@ -197,27 +197,27 @@ class SON_Moip_StandardController extends Mage_Core_Controller_Front_Action {
         $status = "";
 
         switch ($param) {
-            case 1:
-                $status = "Autorizado";
-                break;
-            case 2:
-                $status = "Iniciado";
-                break;
-            case 3:
-                $status = "Boleto Impresso";
-                break;
-            case 4:
-                $status = "Concluido";
-                break;
-            case 5:
-                $status = "Cancelado";
-                break;
-            case 6:
-                $status = "Em análise";
-                break;
-            case 7:
-                $status = "Estornado";
-                break;
+        case 1:
+            $status = "Autorizado";
+            break;
+        case 2:
+            $status = "Iniciado";
+            break;
+        case 3:
+            $status = "Boleto Impresso";
+            break;
+        case 4:
+            $status = "Concluido";
+            break;
+        case 5:
+            $status = "Cancelado";
+            break;
+        case 6:
+            $status = "Em análise";
+            break;
+        case 7:
+            $status = "Estornado";
+            break;
         }
 
         return $status;

@@ -26,23 +26,8 @@ class SON_Moip_Block_Standard_Redirect extends Mage_Core_Block_Abstract {
 
         if (Mage::registry('token')) {
             if (!$status_pgdireto) {
-                $form->setAction($url)
-                        ->setId('moip_standard_checkout')
-                        ->setName('moip_standard_checkout')
-                        ->setMethod('POST')
-                        ->setUseContainer(true);
-
-                $html.= $standard->getMessageRedirect();
-                $html.= $this->__('<p>Caso a janela não se abra automaticamente <a href="javascript:open();"><strong>clique aqui</strong></a>.</p>');
-                $html.= $form->toHtml();
-                $html.= '<script type="text/javascript">function open(){';
-                $html.= 'document.getElementById("moip_standard_checkout").target=\'blank\';';
-                $html.= 'document.getElementById("moip_standard_checkout").submit();';
-                $html.= '}';
-                $html.= 'open();';
-                $html.= '</script>';
-
-                $html.= '';
+            header("Location: $url");              
+            ob_flush();
             } else {
 
                 if ($status_pgdireto <> "Cancelado")
